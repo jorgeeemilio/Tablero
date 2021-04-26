@@ -14,8 +14,10 @@ public class Vista extends Frame
 	private static final long serialVersionUID = 1L;
 	Toolkit herramientas;
 	Image tablero, dado;
-	int x = 10;
-	int y = 400;
+	int xRojo = 10;
+	int yRojo = 400;
+	int xVerde = 5;
+	int yVerde = 395;
 	Dialog dlgMensaje = new Dialog(this, "Mensaje", true);
 	Label lblMensaje = new Label("Fin");
 	
@@ -41,14 +43,22 @@ public class Vista extends Frame
 	{
 		g.drawImage(tablero, 70, 60, this);
 		g.drawImage(dado, 10, 200, this);
+		g.setColor(Color.green);
+		g.fillOval(xVerde,yVerde,50,50);
 		g.setColor(Color.red);
-		g.fillOval(x,y,50,50);
+		g.fillOval(xRojo,yRojo,50,50);
 	}
 	
-	public void actualizar(int x, int y)
+	public void actualizarRojo(int x, int y)
 	{
-		this.x = x-25;
-		this.y = y-25;
+		this.xRojo = x-25;
+		this.yRojo = y-25;
+		repaint();
+	}
+	public void actualizarVerde(int x, int y)
+	{
+		this.xVerde= x-20;
+		this.yVerde = y-20;
 		repaint();
 	}
 }

@@ -13,7 +13,9 @@ public class Controlador implements WindowListener, MouseListener
 			{430,320},{323,320},{224,320},{116,320},
 			{116,215},{220,215},{326,215},{435,215},
 			{432,115},{325,115},{223,115},{116,115}};
-	int posicionActual = -1;
+	int posicionActualRojo = -1;
+	int posicionActualVerde = -1;
+	int turno = 0; // 0 Rojo, 1 Verde
 
 	public Controlador(Vista v, Modelo m)
 	{
@@ -34,6 +36,12 @@ public class Controlador implements WindowListener, MouseListener
 		if(this.vista.dlgMensaje.isActive())
 		{
 			this.vista.dlgMensaje.setVisible(false);
+			// Reiniciar
+			posicionActualRojo = -1;
+			posicionActualVerde = -1;
+			turno = 0;
+			this.vista.actualizarRojo(35, 425);
+			this.vista.actualizarVerde(25, 415);
 		}
 		else
 		{
@@ -60,21 +68,46 @@ public class Controlador implements WindowListener, MouseListener
 		if((x>=10)&&(x<=70)&&(y>=200)&&(y<=260))
 		{
 			int tiradaActual = this.modelo.tirada();
-			posicionActual = posicionActual + tiradaActual;
-			if (posicionActual<15)
+			System.out.println(turno + "-->"+ tiradaActual);
+			if(turno == 0)
 			{
-				this.vista.actualizar(tablero[posicionActual][0], tablero[posicionActual][1]);
+				posicionActualRojo = posicionActualRojo + tiradaActual;
+				if (posicionActualRojo<15)
+				{
+					this.vista.actualizarRojo(tablero[posicionActualRojo][0], tablero[posicionActualRojo][1]);
+				}
+				else if(posicionActualRojo == 15)
+				{
+					this.vista.actualizarRojo(tablero[posicionActualRojo][0], tablero[posicionActualRojo][1]);
+					this.vista.lblMensaje.setText("Ganó Rojo");
+					this.vista.dlgMensaje.setVisible(true);
+				}
+				else if(posicionActualRojo > 15)
+				{
+					posicionActualRojo = 15 -(posicionActualRojo - 15);
+					this.vista.actualizarRojo(tablero[posicionActualRojo][0], tablero[posicionActualRojo][1]);
+				}
+				turno = 1;
 			}
-			else if(posicionActual == 15)
+			else
 			{
-				this.vista.actualizar(tablero[posicionActual][0], tablero[posicionActual][1]);
-				this.vista.dlgMensaje.setVisible(true);
-				this.vista.removeMouseListener(this);
-			}
-			else if(posicionActual > 15)
-			{
-				posicionActual = 15 -(posicionActual - 15);
-				this.vista.actualizar(tablero[posicionActual][0], tablero[posicionActual][1]);
+				posicionActualVerde = posicionActualVerde + tiradaActual;
+				if (posicionActualVerde<15)
+				{
+					this.vista.actualizarVerde(tablero[posicionActualVerde][0], tablero[posicionActualVerde][1]);
+				}
+				else if(posicionActualVerde == 15)
+				{
+					this.vista.actualizarVerde(tablero[posicionActualVerde][0], tablero[posicionActualVerde][1]);
+					this.vista.lblMensaje.setText("Ganó Verde");
+					this.vista.dlgMensaje.setVisible(true);
+				}
+				else if(posicionActualVerde > 15)
+				{
+					posicionActualVerde = 15 -(posicionActualVerde - 15);
+					this.vista.actualizarVerde(tablero[posicionActualVerde][0], tablero[posicionActualVerde][1]);
+				}
+				turno = 0;
 			}
 		}
 	}
