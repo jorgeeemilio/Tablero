@@ -13,6 +13,10 @@ public class Controlador implements WindowListener, MouseListener
 			{430,320},{323,320},{224,320},{116,320},
 			{116,215},{220,215},{326,215},{435,215},
 			{432,115},{325,115},{223,115},{116,115}};
+	int saltos[] = {0, 0, 0, 3, 
+			0, 0, 0, -6, 
+			1, 0, 0, 0, 
+			-1, 0, 0, 0};
 	int posicionActualRojo = -1;
 	int posicionActualVerde = -1;
 	int turno = 0; // 0 Rojo, 1 Verde
@@ -74,17 +78,20 @@ public class Controlador implements WindowListener, MouseListener
 				posicionActualRojo = posicionActualRojo + tiradaActual;
 				if (posicionActualRojo<15)
 				{
+					posicionActualRojo = posicionActualRojo + saltos[posicionActualRojo];
 					this.vista.actualizarRojo(tablero[posicionActualRojo][0], tablero[posicionActualRojo][1]);
 				}
 				else if(posicionActualRojo == 15)
 				{
+					posicionActualRojo = posicionActualRojo + saltos[posicionActualRojo];
 					this.vista.actualizarRojo(tablero[posicionActualRojo][0], tablero[posicionActualRojo][1]);
-					this.vista.lblMensaje.setText("Ganó Rojo");
+					this.vista.lblMensaje.setText("GanÃ³ Rojo");
 					this.vista.dlgMensaje.setVisible(true);
 				}
 				else if(posicionActualRojo > 15)
 				{
 					posicionActualRojo = 15 -(posicionActualRojo - 15);
+					posicionActualRojo = posicionActualRojo + saltos[posicionActualRojo];
 					this.vista.actualizarRojo(tablero[posicionActualRojo][0], tablero[posicionActualRojo][1]);
 				}
 				turno = 1;
@@ -94,17 +101,20 @@ public class Controlador implements WindowListener, MouseListener
 				posicionActualVerde = posicionActualVerde + tiradaActual;
 				if (posicionActualVerde<15)
 				{
+					posicionActualVerde = posicionActualVerde+ saltos[posicionActualVerde];
 					this.vista.actualizarVerde(tablero[posicionActualVerde][0], tablero[posicionActualVerde][1]);
 				}
 				else if(posicionActualVerde == 15)
 				{
+					posicionActualVerde = posicionActualVerde+ saltos[posicionActualVerde];
 					this.vista.actualizarVerde(tablero[posicionActualVerde][0], tablero[posicionActualVerde][1]);
-					this.vista.lblMensaje.setText("Ganó Verde");
+					this.vista.lblMensaje.setText("GanÃ³ Verde");
 					this.vista.dlgMensaje.setVisible(true);
 				}
 				else if(posicionActualVerde > 15)
 				{
 					posicionActualVerde = 15 -(posicionActualVerde - 15);
+					posicionActualVerde = posicionActualVerde+ saltos[posicionActualVerde];
 					this.vista.actualizarVerde(tablero[posicionActualVerde][0], tablero[posicionActualVerde][1]);
 				}
 				turno = 0;
